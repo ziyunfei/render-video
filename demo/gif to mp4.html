@@ -1,0 +1,31 @@
+<img id="gif" src="http://img.mp.itc.cn/upload/20161110/9f5c77e3595c42d89554c523c2955d16.jpg">
+<button id="renderButton">Render</button>
+
+<script type="module">
+import renderVideo from "../index.mjs";
+
+renderButton.onclick = async function() {
+  const gifRes = await fetch(gif.src);
+  const gifBuffer = await gifRes.arrayBuffer();
+
+  const decoder = new window.ImageDecoder({
+    data: gifBuffer,
+    type: "image/gif",
+  });
+  
+  await decoder.completed;
+  await decoder.tracks.ready;
+  
+  const frameCount = decoder.tracks[0].frameCount;
+
+  const mp4Blob = await renderVideo(async function(frameIndex) {
+    frameIndex = parseInt(frameIndex / 3);
+    if (frameIndex === frameCount) return;
+    
+    const res = await decoder.decode({ frameIndex });
+    return res.image;
+  });
+
+  open(URL.createObjectURL(mp4Blob));
+};
+</script>

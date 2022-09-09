@@ -1,0 +1,67 @@
+<style>
+  #progress {
+    background: #000a;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: grid;
+    place-items: center;
+    color: #FFF;
+    font-size: 3em;
+    display: none;
+  }
+</style>
+
+<canvas id="canvas"></canvas>
+<button id="playButton">Play</button>
+<button id="renderButton">Render</button>
+<div id="progress"></div>
+
+<script type="module">
+import renderVideo from "../index.mjs";
+
+const framesCount = 100;
+
+function seek(frameIndex) {
+  const ctx = canvas.getContext("2d");
+  ctx.reset();
+  ctx.fillStyle = "blue";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "red";
+  ctx.font = "80px serif";
+  ctx.fillText(frameIndex, 100, 100);
+  return canvas;
+}
+
+seek(0);
+
+let intervalId;
+playButton.onclick = function() {
+  let frameIndex = 0;
+  clearInterval(intervalId);
+  intervalId = setInterval(() => {
+    seek(frameIndex++);
+    if (frameIndex === framesCount) clearInterval(intervalId);
+  }, 16);
+};
+
+renderButton.onclick = async function() {
+  const mp4Blob = await renderVideo(async function(frameIndex) {
+    if (frameIndex === framesCount) {
+      progress.style.display = "none";
+      return;
+    }
+
+    await seek(frameIndex);
+
+    progress.textContent = `encoding ${frameIndex + 1}/${framesCount}`;
+    progress.style.display = "grid";
+
+    return canvas;
+  });
+
+  open(URL.createObjectURL(mp4Blob));
+};
+</script>

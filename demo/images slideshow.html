@@ -1,0 +1,57 @@
+<style>
+img {width: 32vw}
+#progress {
+  background: #000a;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  color: #FFF;
+  font-size: 3em;
+  display: none;
+}
+</style>
+
+<button id="renderButton">Render</button>
+<div id="progress"></div>
+
+<script type="module">
+import renderVideo from "../index.mjs";
+
+const urls = [
+  "https://bing.com/th?id=OHR.CircumnavigationAnni_ZH-CN6835512993_1920x1080.jpg",
+  "https://bing.com/th?id=OHR.SquirrelMushroom_ZH-CN2854383605_1920x1080.jpg",
+  "https://bing.com/th?id=OHR.TaigaRoad_ZH-CN2567537158_1920x1080.jpg",
+  "https://bing.com/th?id=OHR.SeitanLimania_ZH-CN3831790369_1920x1080.jpg",
+  "https://bing.com/th?id=OHR.WildlifeCrossing_ZH-CN1493053695_1920x1080.jpg",
+  "https://bing.com/th?id=OHR.EstoniaBaltic_ZH-CN0314555299_1920x1080.jpg",
+];
+
+for (const url of urls) {
+  const img = new Image();
+  img.crossOrigin = true;
+  document.body.prepend(img);
+  img.src = url;
+}
+
+renderButton.onclick = async function() {
+  const mp4Blob = await renderVideo(async function(frameIndex) {
+    const percent = parseInt((frameIndex + 1) / (urls.length * 25) * 100);
+    progress.textContent = `encoding ${percent}%`;
+    progress.style.display = "grid";
+
+    const imageIndex = parseInt(frameIndex / 25);
+    if (imageIndex > urls.length - 1) {
+      progress.style.display = "none";
+      return;
+    }
+    
+    return document.querySelectorAll("img").item(imageIndex);
+  });
+
+  open(URL.createObjectURL(mp4Blob));
+};
+</script>
