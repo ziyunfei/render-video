@@ -2,7 +2,7 @@
 img {width: 32vw}
 #progress {
   background: #000a;
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 100vh;
   left: 0;
@@ -29,6 +29,7 @@ const urls = [
   "https://bing.com/th?id=OHR.WildlifeCrossing_ZH-CN1493053695_1920x1080.jpg",
   "https://bing.com/th?id=OHR.EstoniaBaltic_ZH-CN0314555299_1920x1080.jpg",
 ];
+const bgm = "https://sf3-cdn-tos.douyinstatic.com/obj/ies-music/6984423402673130248.mp3";
 
 for (const url of urls) {
   const img = new Image();
@@ -38,19 +39,20 @@ for (const url of urls) {
 }
 
 renderButton.onclick = async function() {
+  const options = { audio: bgm };
+
   const mp4Blob = await renderVideo(async function(frameIndex) {
     const percent = parseInt((frameIndex + 1) / (urls.length * 25) * 100);
     progress.textContent = `encoding ${percent}%`;
     progress.style.display = "grid";
 
     const imageIndex = parseInt(frameIndex / 25);
-    if (imageIndex > urls.length - 1) {
-      progress.style.display = "none";
-      return;
-    }
+    if (imageIndex > urls.length - 1) return;
     
     return document.querySelectorAll("img").item(imageIndex);
-  });
+  }, options);
+
+  progress.style.display = "none";
 
   open(URL.createObjectURL(mp4Blob));
 };

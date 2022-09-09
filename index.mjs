@@ -1,4 +1,5 @@
 import ffmpeg from "./ffmpeg.mjs";
+import genAudio from "./genAudio.mjs";
 
 export default function renderVideo(getFrame, options = {}) {
   return new Promise(async (resolve, reject) => {
@@ -22,6 +23,8 @@ export default function renderVideo(getFrame, options = {}) {
     });
 
     async function renderMP4() {
+      const wav = await genAudio(options.audio, framesCount / fps);
+
       const buffers = chunks.map(chunk => {
         const buffer = new ArrayBuffer(chunk.byteLength);
         chunk.copyTo(buffer);
@@ -37,7 +40,13 @@ export default function renderVideo(getFrame, options = {}) {
         offset += buffer.byteLength;
       }
 
-      const inputs = [{ name: "out.h264", data: u8Array }];
+      const inputs = [{ name: "1.h264", data: u8Array }];
+      if (wav) {
+        inputs.push({
+          name: "1.wav",
+          data: wav,
+        });
+      }
       const inputArgs = inputs.map(input => "-i " + input.name).join(" ");
 
       const mp4Buffer = (

@@ -2,7 +2,7 @@
 Convert canvas animation to video in browser using WebCodecs API.
 
 ## Basic usage
-```
+```javascript
 const mp4Blob = await renderVideo(async function(frameIndex) {
   if (frameIndex === canvasPlayer.totalFrames) return;
 
@@ -12,6 +12,13 @@ const mp4Blob = await renderVideo(async function(frameIndex) {
 });
 
 download(mp4Blob);
+```
+
+## Audio support
+```javascript
+const mp4Blob = await renderVideo(getFrameCallback, {
+  audio: "https://xxx/yyy.mp3"
+});
 ```
 
 ## Demos
