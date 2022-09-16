@@ -89,7 +89,7 @@ export default function renderVideo(getFrame, options = {}) {
       encoder.encode(videoFrame);
       videoFrame.close();
 
-      await new Promise(r => setTimeout(r));
+      if (!document.hidden) await new Promise(r => setTimeout(r));
     }
   });
 }
