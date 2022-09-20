@@ -26,7 +26,7 @@ canvas player [https://ziyunfei.github.io/render-video/demo/canvas player.html](
 
 images slideshow [https://ziyunfei.github.io/render-video/demo/images slideshow.html](https://ziyunfei.github.io/render-video/demo/images%20slideshow.html)
 
-git to mp4 [https://ziyunfei.github.io/render-video/demo/gif to mp4.html](https://ziyunfei.github.io/render-video/demo/gif%20to%20mp4.html)
+gif to mp4 [https://ziyunfei.github.io/render-video/demo/gif to mp4.html](https://ziyunfei.github.io/render-video/demo/gif%20to%20mp4.html)
 
 lottie to mp4 [https://ziyunfei.github.io/render-video/demo/lottie to mp4.html](https://ziyunfei.github.io/render-video/demo/lottie%20to%20mp4.html)
 
