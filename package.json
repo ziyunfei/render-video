@@ -1,6 +1,6 @@
 {
   "name": "render-video",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Convert canvas animation to video in browser using WebCodecs API",
   "author": "ziyunfei",
   "main": "src/index.mjs"

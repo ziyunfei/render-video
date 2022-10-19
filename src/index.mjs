@@ -78,7 +78,7 @@ export default function renderVideo(getFrame, options = {}) {
       const height = frame.displayHeight || frame.naturalHeight || frame.height;
 
       encoder.configure({
-        codec: "avc1.42001E",
+        codec: "avc1.420028",
         width: width % 2 ? width + 1 : width,
         height: height % 2 ? height + 1 : height,
         hardwareAcceleration: "prefer-software",
