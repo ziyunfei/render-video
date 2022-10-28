@@ -78,14 +78,14 @@ export default function renderVideo(getFrame, options = {}) {
       const height = frame.displayHeight || frame.naturalHeight || frame.height;
 
       encoder.configure({
-        codec: "avc1.420028",
+        codec: "avc1.420034",
         width: width % 2 ? width + 1 : width,
         height: height % 2 ? height + 1 : height,
         hardwareAcceleration: "prefer-software",
         avc: { format: "annexb" },
       });
 
-      const videoFrame = new VideoFrame(frame, { timestamp: (1e6 / fps) * frameIndex });
+      const videoFrame = frame instanceof VideoFrame ? frame : new VideoFrame(frame, { timestamp: (1e6 / fps) * frameIndex });
       encoder.encode(videoFrame);
       videoFrame.close();
 

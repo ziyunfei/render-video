@@ -1,0 +1,35 @@
+<button id="renderButton">Start</button>
+
+<script type="module">
+import renderVideo from "../src/index.mjs";
+
+let started;
+let track;
+
+renderButton.onclick = async () => {
+  if (started) return track.stop();
+
+  started = true;
+  renderButton.textContent = "Stop";
+
+  const stream = await navigator.mediaDevices.getDisplayMedia({
+    video: { width: 3840 },
+  });
+  track = stream.getVideoTracks()[0];
+  track.onended = () => {
+    started = false;
+    renderButton.textContent = "Start";
+  };
+
+  const trackProcessor = new MediaStreamTrackProcessor(track);
+  const frameFeader = trackProcessor.readable.getReader();
+
+  const mp4Blob = await renderVideo(async frameIndex => {
+    const result = await frameFeader.read();
+    if (result.done) return;
+    return result.value;
+  });
+
+  open(URL.createObjectURL(mp4Blob));
+};
+</script>

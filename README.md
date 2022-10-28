@@ -30,5 +30,7 @@ gif to mp4 [https://ziyunfei.github.io/render-video/demo/gif to mp4.html](https:
 
 lottie to mp4 [https://ziyunfei.github.io/render-video/demo/lottie to mp4.html](https://ziyunfei.github.io/render-video/demo/lottie%20to%20mp4.html)
 
+screen recording [https://ziyunfei.github.io/render-video/demo/screen recording.html](https://ziyunfei.github.io/render-video/demo/screen%20recording.html)
+
 ## Browser support
 Chrome 94+ only.
